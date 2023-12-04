@@ -12,7 +12,16 @@ const handleChange = evt => {
   storage.save('feedbackForm', saveData);
 };
 
+const onSubmit = e => {
+  e.preventDefault();
+  const { name, email, message } = e.target.elements;
+  console.log({ name: name.value, email: email.value, message: message.value });
+  localStorage.removeItem('feedbackForm');
+  e.target.reset();
+};
+
 form.addEventListener('input', handleChange);
+form.addEventListener('submit', onSubmit);
 
 function initPage() {
   let saveData = storage.load('feedbackForm');
