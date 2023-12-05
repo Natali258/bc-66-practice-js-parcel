@@ -1,6 +1,13 @@
 const timer = {
   intervalId: null,
   refs: {},
+  datasetValues: {
+    days: ['день', 'дня', 'днів'],
+    hours: ['година', 'години', 'годин'],
+    minutes: ['хвилина', 'хвилини', 'хвилин'],
+    seconds: ['секунда', 'секунди', 'секунд'],
+  },
+
   start(rootSelector, targetDate) {
     const target = new Date(targetDate);
     let delta = target - Date.now();
@@ -23,7 +30,6 @@ const timer = {
   },
   getRefs(rootSelector) {
     this.refs.timer = document.querySelector(`.${rootSelector}`);
-    // console.log(rootSelector);
   },
   convertMS(diff) {
     const days = Math.floor(diff / 1000 / 60 / 60 / 24);
@@ -33,11 +39,24 @@ const timer = {
     return { days, hours, minutes, seconds };
   },
   updateTextContent(date) {
-    // console.log(Object.entries(date));
-    Object.entries(date).forEach(([key, value]) => {
-      console.log(key, value);
-      console.log(this.refs.timer.children);
+    Object.entries(date).forEach(([key, value], index) => {
+      this.refs.timer.children[index].textContent = this.addLeadingZero(value);
+      this.refs.timer.children[index].dataset.title = this.updateDataTitle(
+        value,
+        key
+      );
     });
+  },
+  addLeadingZero(value) {
+    return String(value).padStart(2, 0);
+  },
+
+  updateDataTitle(value, key) {
+    return this.datasetValues[key][
+      value % 100 > 4 && value % 100 < 20
+        ? 2
+        : [2, 0, 1, 1, 1, 2][value % 10 < 5 ? value % 10 : 5]
+    ];
   },
 };
 
