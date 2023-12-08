@@ -21,7 +21,8 @@
     "date-fns": "^2.30.0",
     "material-icons": "^1.13.12",
     "modern-normalize": "^1.1.0",
-    "notiflix": "^3.2.6"
+    "notiflix": "^3.2.6",
+    "pexels": "^1.4.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",
