@@ -1,2 +1,0 @@
-!function(){var t=function(t){return t.map((function(t){return'<li class="contacts-item">\n    <p>'.concat(t.name,"</p>\n        <p>").concat(t.email,"</p>\n        <p>").concat(t.number,'</p>\n        <button type="button">Delete</button>\n        </li>')})).join("")},n={list:document.querySelector(".js-list")};fetch("https://6578508af08799dc8044e406.mockapi.io/contacts").then((function(t){if(!t.ok)throw new Error(t.statusText);return t.json()})).then((function(e){var o=t(e);n.list.innerHTML=o}))}();
-//# sourceMappingURL=contacts.a58c6063.js.map

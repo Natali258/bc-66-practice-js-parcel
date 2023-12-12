@@ -1,2 +1,0 @@
-const t=t=>t.map((t=>`<li class="contacts-item">\n    <p>${t.name}</p>\n        <p>${t.email}</p>\n        <p>${t.number}</p>\n        <button type="button">Delete</button>\n        </li>`)).join(""),n={list:document.querySelector(".js-list")};fetch("https://6578508af08799dc8044e406.mockapi.io/contacts").then((t=>{if(!t.ok)throw new Error(t.statusText);return t.json()})).then((e=>{const o=t(e);n.list.innerHTML=o}));
-//# sourceMappingURL=contacts.d7f9b863.js.map
