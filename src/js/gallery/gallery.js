@@ -7,7 +7,37 @@ let page = 1;
 let query = '';
 const form = document.querySelector('.js-search-form');
 const gallery = document.querySelector('.js-gallery');
-const btnLoadMore = document.querySelector('.js-load-more');
+
+let options = {
+  root: null,
+  rootMargin: '100px',
+  threshold: 1.0,
+};
+
+let callback = (entries, observer) => {
+  entries.forEach(async entry => {
+    if (entry.isIntersecting) {
+      observer.unobserve(entry.target);
+      page += 1;
+
+      spinnerPlay();
+
+      try {
+        const data = await getPhotos(query, page);
+        const markup = createMarkup(data.results);
+        gallery.insertAdjacentHTML('beforeend', markup);
+
+        hasMorePhotos(data.total);
+      } catch (error) {
+        Notify.failure(error.message);
+      } finally {
+        spinnerStop();
+      }
+    }
+  });
+};
+
+let observer = new IntersectionObserver(callback, options);
 
 const handleSubmit = async e => {
   e.preventDefault();
@@ -21,7 +51,6 @@ const handleSubmit = async e => {
   query = value;
 
   gallery.innerHTML = '';
-  btnLoadMore.classList.add('is-hidden');
 
   spinnerPlay();
 
@@ -35,12 +64,9 @@ const handleSubmit = async e => {
     const markup = createMarkup(data.results);
     gallery.insertAdjacentHTML('beforeend', markup);
 
-    if (page < Math.ceil(data.total / 20)) {
-      btnLoadMore.classList.remove('is-hidden');
-    }
+    hasMorePhotos(data.total);
   } catch (error) {
     Notify.failure(error.message);
-    btnLoadMore.classList.add('is-hidden');
   } finally {
     spinnerStop();
   }
@@ -48,25 +74,9 @@ const handleSubmit = async e => {
 
 form.addEventListener('submit', handleSubmit);
 
-const handLoadMore = async () => {
-  page += 1;
-
-  spinnerPlay();
-
-  try {
-    const data = await getPhotos(query, page);
-    const markup = createMarkup(data.results);
-    gallery.insertAdjacentHTML('beforeend', markup);
-
-    if (page === Math.ceil(data.total / 20)) {
-      btnLoadMore.classList.add('is-hidden');
-    }
-  } catch (error) {
-    Notify.failure(error.message);
-    btnLoadMore.classList.add('is-hidden');
-  } finally {
-    spinnerStop();
+function hasMorePhotos(total) {
+  if (page < Math.ceil(total / 20)) {
+    const item = document.querySelector('.gallery__item:last-child');
+    observer.observe(item);
   }
-};
-
-btnLoadMore.addEventListener('click', handLoadMore);
+}
