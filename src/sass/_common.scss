@@ -16,3 +16,17 @@ ol {
   border: 2px solid fuchsia;
   width: 250px;
 }
+
+.modal-item {
+  position: relative;
+  background-color: white;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.modal-close-btn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+}

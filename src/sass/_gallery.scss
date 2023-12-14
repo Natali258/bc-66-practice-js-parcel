@@ -30,9 +30,6 @@
   display: block;
   margin: 0 auto;
 }
-.is-hidden {
-  display: none;
-}
 .search-btn:hover,
 .search-btn:focus,
 .load-more:hover,
@@ -64,4 +61,12 @@
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.8);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.is-hidden {
+  display: none;
 }
