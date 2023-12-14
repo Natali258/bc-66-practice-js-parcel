@@ -1,13 +1,11 @@
 // https://6578508af08799dc8044e406.mockapi.io/contacts
 export const getContacts = () => {
-  return fetch('https://6578508af08799dc8044e406.mockapi.io/contacts').then(
-    res => {
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
-      return res.json();
+  return fetch('https://6578508af08799dc8044e406.mockapi.io/contacts').then(res => {
+    if (!res.ok) {
+      throw new Error(res.statusText);
     }
-  );
+    return res.json();
+  });
 };
 export const createContact = contact => {
   const options = {
@@ -17,15 +15,14 @@ export const createContact = contact => {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   };
-  return fetch(
-    'https://6578508af08799dc8044e406.mockapi.io/contacts',
-    options
-  ).then(res => {
-    if (!res.ok) {
-      throw new Error(res.statusText);
+  return fetch('https://6578508af08799dc8044e406.mockapi.io/contacts', options).then(
+    res => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      return res.json();
     }
-    return res.json();
-  });
+  );
 };
 
 export const deleteContact = id => {
@@ -41,4 +38,15 @@ export const deleteContact = id => {
     }
     return res.json();
   });
+};
+
+export const getContactById = id => {
+  return fetch(`https://6578508af08799dc8044e406.mockapi.io/contacts/${id}`).then(
+    res => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      return res.json();
+    }
+  );
 };
