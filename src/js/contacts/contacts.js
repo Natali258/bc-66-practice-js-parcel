@@ -29,6 +29,7 @@ const handleSubmit = event => {
   createContact(contact).then(data => {
     const markup = createListMarkup([data]);
     refs.list.insertAdjacentHTML('afterbegin', markup);
+    event.target.reset();
   });
 };
 
@@ -41,7 +42,7 @@ const onClickContact = event => {
 
   if (event.target.nodeName === 'BUTTON') {
     deleteContact(item.dataset.id).then(data => {
-      oldElem.remove();
+      item.remove();
       Notify.success(`${data.name} deleted`);
     });
     return;

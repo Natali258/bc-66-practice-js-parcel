@@ -1,52 +1,25 @@
 // https://6578508af08799dc8044e406.mockapi.io/contacts
-export const getContacts = () => {
-  return fetch('https://6578508af08799dc8044e406.mockapi.io/contacts').then(res => {
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-    return res.json();
-  });
+import axios from 'axios';
+
+const instance = axios.create({
+  baseURL: 'https://6578508af08799dc8044e406.mockapi.io',
+});
+export const getContacts = async () => {
+  const { data } = await instance.get('/contacts');
+  return data;
 };
-export const createContact = contact => {
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(contact),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  };
-  return fetch('https://6578508af08799dc8044e406.mockapi.io/contacts', options).then(
-    res => {
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
-      return res.json();
-    }
-  );
+export const createContact = async contact => {
+  const { data } = await instance.post('/contacts', contact);
+
+  return data;
 };
 
-export const deleteContact = id => {
-  const options = {
-    method: 'DELETE',
-  };
-  return fetch(
-    `https://6578508af08799dc8044e406.mockapi.io/contacts/${id}`,
-    options
-  ).then(res => {
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-    return res.json();
-  });
+export const deleteContact = async id => {
+  const { data } = await instance.delete(`/contacts/${id}`);
+  return data;
 };
 
-export const getContactById = id => {
-  return fetch(`https://6578508af08799dc8044e406.mockapi.io/contacts/${id}`).then(
-    res => {
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
-      return res.json();
-    }
-  );
+export const getContactById = async id => {
+  const { data } = await instance.get(`/contacts/${id}`);
+  return data;
 };
