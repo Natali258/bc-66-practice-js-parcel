@@ -50,15 +50,29 @@ const onClickContact = event => {
   getContactById(item.dataset.id).then(data => {
     // console.log(data);
     refs.backDrop.classList.remove('is-hidden');
+    document.addEventListener('keydown', onEscButtonPress);
     refs.backDrop.innerHTML = createContactInfo(data);
   });
 };
 refs.list.addEventListener('click', onClickContact);
 
 refs.backDrop.addEventListener('click', onCloseModal);
-function onCloseModal(event) {
-  if (event.target.classList.contains('modal-close-btn')) {
-    refs.backDrop.classList.add('is-hidden');
+function onCloseModal({ target, currentTarget }) {
+  const isButtonClose = target.classList.contains('modal-close-btn');
+
+  if (isButtonClose || target === currentTarget) {
+    hideBackdrope();
   }
+}
+
+function onEscButtonPress(e) {
+  if (e.code === 'Escape') {
+    hideBackdrope();
+  }
+}
+
+function hideBackdrope() {
+  refs.backDrop.classList.add('is-hidden');
+  document.removeEventListener('keydown', onEscButtonPress);
 }
 // console.log(refs.closeModalBtn);
